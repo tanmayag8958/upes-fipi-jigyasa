@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['upesjigyasa.herokuapp.com',]
 INSTALLED_APPS = [
     'jigyasa.apps.JigyasaConfig',
     'users.apps.UsersConfig',
+    'payments.apps.PaymentsConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -111,13 +112,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
+SITE_ID = 1
 
 
 # Static files (CSS, JavaScript, Images)
@@ -147,13 +150,42 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+#
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+#
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 django_heroku.settings(locals())
+
+# CSRF_USE_SESSIONS = True
+# # SESSION_ENGINE = "django.contrib.sessions.backends.db"
+# SESSION_COOKIE_SAMESITE = "Lax"
+# CSRF_COOKIE_SAMESITE = "Lax"
+# CSRF_COOKIE_DOMAIN = "*.paytm.in"
+
+
+
+PAYTM_MERCHANT_KEY = "MEjge%cyDZ3UV5jO"
+PAYTM_MERCHANT_ID = "OdRKcA02549498885593"
+HOST_URL = os.environ.get('HOST_URL')
+PAYTM_CALLBACK_URL = "/payments/response/"
+
+if DEBUG:
+    PAYTM_MERCHANT_KEY = "MEjge%cyDZ3UV5jO"
+    PAYTM_MERCHANT_ID = "OdRKcA02549498885593"
+    PAYTM_WEBSITE = 'WEBSTAGING'
+    HOST_URL = os.environ.get('HOST_URL')
+    '''
+    In sandbox enviornment you can use following wallet credentials to login and make payment.
+    Mobile Number : 7777777777
+    Password : Paytm12345
+    OTP: 489871
+    This test wallet is topped-up to a balance of 7000 Rs. every 5 minutes.
+    '''
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+# USER = ""

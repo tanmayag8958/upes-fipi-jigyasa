@@ -8,7 +8,9 @@ class User_details(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     team_count = models.IntegerField(default=1)
     date_registered = models.DateTimeField(default=timezone.now)
-    contact_no = models.IntegerField(default=91)
+    contact_no = models.BigIntegerField(default=91)
+    status = models.CharField('STATUS', max_length=12, default='Not Paid')
+    referral = models.CharField('REFERRAL', max_length=30, null=True, blank=True)
 
     def __str__(self):
         return self.user.username

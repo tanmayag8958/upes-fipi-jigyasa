@@ -29,52 +29,25 @@
 
   </head>
   <body>
-
-    <script type="text/javascript">
-      alert("Please save your Transaction ID and Order ID for future refrences.");
-    </script>
-
-    <div class="container" style="margin-top:10%;">
+    <div class="container">
       <div class="row justify-content-center">
         <div class="col-11 col-md-8 mt-5 mb-5 border-primary pricing">
             <p class="text-primary">Jigyasa Payments!!!</p>
-            <p class="text-primary">CHECKOUT DETAILS</p>
-
-
-              {% if status == 'TXN_SUCCESS' %}
-              <p class="text-primary">Congratulation your payment is successful.<span class="fas fa-check-circle"></span></p>
-              {% elif status == 'TXN_FAILURE' %}
-              <p class="text-primary">Transaction Failed, Please try again.<span class="fas fa-times-circle"></span></p>
-              {% elif status == 'PENDING' %}
-              <p class="text-primary">Transaction Pending, We will contact u soon or contact us on "CONTACT US" tab in website.<span class="fas fa-times-circle"></span></p>
-              {% endif %}
-
+            <p class="text-primary">Merchant Check Out Page.</p>
+            <p class="text-primary">Please Do Not Refresh The Page.</p>
+            <p class="text-primary">You are getting Redirected to the Payment Gateway.</p>
+          <form method="post" action="{{ paytmurl }}" name="paytm">
             <table border="1">
-
-            <tbody>
-
-
-              {% for key,value in paytmr.items %}
-
-                {% if key == 'id' or key == 'user' or key == 'MID' or key == 'PAYMENTMODE' or key == 'CURRENCY' or key == 'RESPCODE' or key == 'GATEWAYNAME' or key == 'BANKNAME' %}
-
-                {% else %}
-
-
-                  {{key}} - {{ value }}<br>
-
-                  {% endif %}
-              {% endfor %}
-
-
-
-            <!-- {% for key,value in paytmr.items %}
-                <input type="hidden" name="{{key}}" value="{{value}}">
-            {% endfor %} -->
-            </tbody>
-            <!-- <h2>{{ user }}</h2> -->
-            <br>
-            <button class="btn btn-primary px-4 py-2" type="button"><a href="{% url 'payments_home' %}"  style="color:white;">Back to Profile</a></button>
+              <tbody>
+                {% for key,value in paytmdict.items %}
+                  <input type="hidden" name="{{key}}" value="{{value}}">
+                {% endfor %}
+                <!-- <h2>{{ user }}</h2> -->
+              </tbody>
+            </table>
+            <script type="text/javascript">
+              document.paytm.submit();
+            </script>
           </form>
         </div>
       </div>

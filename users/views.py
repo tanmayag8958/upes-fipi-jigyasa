@@ -4,16 +4,19 @@ from .forms import UserRegisterForm, UserDetails, UserUpdateForm, ContactUpdateF
 from .models import User_details
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.contrib.sessions.models import Session
+from payments.models import Paytm_history
 
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         user_details_form = UserDetails(request.POST)
         if form.is_valid() and user_details_form.is_valid():
-            # form.save()
             user = form.save()
             user.user_details.team_count = user_details_form.cleaned_data.get('team_count')
             user.user_details.contact_no = user_details_form.cleaned_data.get('contact_no')
+            user.user_details.referral = user_details_form.cleaned_data.get('referral')
             user.user_details.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account Registered for {username}')
@@ -24,10 +27,6 @@ def register(request):
         user_details_form = UserDetails()
     return render(request, 'users/register.html', {'form': form, 'user_details_form':user_details_form , 'title': 'Register'})
 
-
-# def logout(request):
-#     messages.success(request, f'Your account has been logged out.')
-#     return redirect('profile')
 
 
 @login_required
@@ -45,4 +44,8 @@ def profile(request):
         u_form  = UserUpdateForm(instance=request.user)
         contact_u_form = ContactUpdateForm(instance=request.user.user_details)
 
-    return render(request, 'users/profile.html', { 'u_form': u_form, 'contact_u_form':contact_u_form, 'title': 'Profile'})
+    user = request.user
+    status = False
+    if Paytm_history.objects.filter(user=user, STATUS = 'TXN_SUCCESS'):
+        status = True
+    return render(request, 'users/profile.html', { 'u_form': u_form, 'contact_u_form':contact_u_form, 'title': 'Profile', 'status': status})

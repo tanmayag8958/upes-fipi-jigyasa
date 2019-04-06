@@ -15,18 +15,19 @@ class UserRegisterForm(UserCreationForm):
 
 
 class UserDetails(forms.ModelForm):
-    CHOICES=[('1',' 1'),
-             ('3',' 3')]
-    team_count = forms.ChoiceField(choices=CHOICES, widget=forms.Select)
+    CHOICES=[('1',' 1     --    Price Rs. 2000'),
+             ('3',' 3     --    Price Rs. 5500')]
+    team_count = forms.ChoiceField(label='No. of members' , choices=CHOICES, widget=forms.RadioSelect(attrs={"required": "required"}), required=True)
     contact_no = forms.IntegerField()
+    referral = forms.CharField(required=False)
 
     class Meta:
         model = User_details
-        fields = ['team_count','contact_no',]
+        fields = ['team_count','contact_no','referral']
 
 
 class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField()
+    email = forms.EmailField(required=False)
 
     class Meta:
         model = User
@@ -34,7 +35,7 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ContactUpdateForm(forms.ModelForm):
-    contact_no = forms.IntegerField()
+    contact_no = forms.IntegerField(required=False)
 
     class Meta:
         model = User_details

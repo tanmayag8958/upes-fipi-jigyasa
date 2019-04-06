@@ -21,13 +21,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'al*1lrn$iudiaks4&o96x^tlmqf!xnmj2=izh@u=1ljf$@q3^m'
 SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+# DEBUG = False
 DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
-ALLOWED_HOSTS = ['upesjigyasa.herokuapp.com',]
+ALLOWED_HOSTS = ['.upesjigyasa.herokuapp.com',
+                '.upesjigyasa.com',
+                'http://localhost:8000',
+                '*',
+                '.test-upesjigyasa.herokuapp.com',
+                ]
 
 
 # Application definition
@@ -54,7 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    ]
 
 ROOT_URLCONF = 'fipi.urls'
 
@@ -162,31 +166,36 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 
 django_heroku.settings(locals())
 
-# CSRF_USE_SESSIONS = True
-# # SESSION_ENGINE = "django.contrib.sessions.backends.db"
+CSRF_USE_SESSIONS = True
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 # SESSION_COOKIE_SAMESITE = "Lax"
 # CSRF_COOKIE_SAMESITE = "Lax"
-# CSRF_COOKIE_DOMAIN = "*.paytm.in"
+# CSRF_COOKIE_DOMAIN = ".paytm.in"
+# CSRF_TRUSTED_ORIGINS = ".paytm.in"
+# CSRF_COOKIE_SECURE = False
+# SESSION_COOKIE_SECURE = False
 
 
 
-PAYTM_MERCHANT_KEY = "MEjge%cyDZ3UV5jO"
-PAYTM_MERCHANT_ID = "OdRKcA02549498885593"
+PAYTM_MERCHANT_KEY = os.environ.get('PAYTM_MERCHANT_KEY')
+PAYTM_MERCHANT_ID = os.environ.get('PAYTM_MERCHANT_ID')
 HOST_URL = os.environ.get('HOST_URL')
+PAYTM_WEBSITE = os.environ.get('PAYTM_WEBSITE')
 PAYTM_CALLBACK_URL = "/payments/response/"
+PAYTM_URL = os.environ.get('PAYTM_URL')
 
-if DEBUG:
-    PAYTM_MERCHANT_KEY = "MEjge%cyDZ3UV5jO"
-    PAYTM_MERCHANT_ID = "OdRKcA02549498885593"
-    PAYTM_WEBSITE = 'WEBSTAGING'
-    HOST_URL = os.environ.get('HOST_URL')
-    '''
-    In sandbox enviornment you can use following wallet credentials to login and make payment.
-    Mobile Number : 7777777777
-    Password : Paytm12345
-    OTP: 489871
-    This test wallet is topped-up to a balance of 7000 Rs. every 5 minutes.
-    '''
+# if DEBUG:
+#     PAYTM_MERCHANT_KEY = os.environ.get('PAYTM_MERCHANT_KEY_TEST')
+#     PAYTM_MERCHANT_ID = os.environ.get('PAYTM_MERCHANT_ID_TEST')
+#     HOST_URL = os.environ.get('HOST_URL')
+#     PAYTM_WEBSITE = 'WEBSTAGING'
+#     '''
+#     In sandbox enviornment you can use following wallet credentials to login and make payment.
+#     Mobile Number : 7777777777
+#     Password : Paytm12345
+#     OTP: 489871
+#     This test wallet is topped-up to a balance of 7000 Rs. every 5 minutes.
+#     '''
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
-# USER = ""
+SECURE_SSL_REDIRECT = True

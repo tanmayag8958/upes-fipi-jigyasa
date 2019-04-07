@@ -43,3 +43,4 @@ The back end is based on django.
 
 #### For any issues contact me at:
 shubham__jaswal@hotmail.com
+tanmayag8958@gmail.com
